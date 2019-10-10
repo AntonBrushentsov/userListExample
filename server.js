@@ -33,9 +33,9 @@ app.post('/user', (req, res) => {
 });
 
 app.delete('/user', (req, res) => {
-  users.delete(req.body);
+  users.slice(id, id + 1);
+  console.log('req.body', req.body);
   // TODO make something
   res.sendStatus(200);
 });
-
 app.listen(3000, () => console.log('port 3000'));
