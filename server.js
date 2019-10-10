@@ -5,7 +5,7 @@ const bodyParser = require('body-parser');
 // TODO users to data.js
 let users = [
   {
-    //TODO id
+    id: 1,
     firstName: 'Pavel',
     secondName: 'Efimov',
     email: 'test@gmail.com'
@@ -33,6 +33,7 @@ app.post('/user', (req, res) => {
 });
 
 app.delete('/user', (req, res) => {
+  users.delete(req.body);
   // TODO make something
   res.sendStatus(200);
 });

@@ -2,10 +2,10 @@ import React, { Component } from 'react';
 
 import Form from './Form';
 import UsersList from './UsersList';
-
-import { getUsers, deleteUser } from 'source';
+import { getUsers, deleteUser, changeUser } from 'source';
 
 import { showError } from 'utils';
+import './styles.css';
 
 class App extends Component {
   state = {
@@ -20,6 +20,14 @@ class App extends Component {
 
   deleteUser = firstName => () => {
     deleteUser(firstName)
+      .then(({ data }) => {
+        this.updateUsersList({ users: data });
+      })
+      .catch(showError);
+  };
+
+  changeUser = firstName => () => {
+    changeUser(firstName)
       .then(() => {
         this.updateUsersList();
       })
@@ -33,12 +41,16 @@ class App extends Component {
   }
 
   render() {
-    const { updateUsersList, deleteUser } = this;
+    const { updateUsersList, deleteUser, changeUser } = this;
     const { users } = this.state;
 
     return (
-      <div>
-        <UsersList data={users} deleteUser={deleteUser} />
+      <div className="wrapper">
+        <UsersList
+          data={users}
+          deleteUser={deleteUser}
+          changeUser={changeUser}
+        />
         <Form updateUsersList={updateUsersList} />
       </div>
     );

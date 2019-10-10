@@ -1,3 +1,6 @@
 //TODO users here
+users = [];
 
-module.exports = {};
+module.exports = {
+  users
+};

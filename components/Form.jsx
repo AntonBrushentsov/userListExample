@@ -37,7 +37,7 @@ class Form extends Component {
     const { changeValue } = this;
 
     return (
-      <form onSubmit={this.onSubmit}>
+      <form onSubmit={this.onSubmit} className="wrapperSmall">
         <label>
           Имя
           <input type="text" onChange={changeValue('firstName')} />
