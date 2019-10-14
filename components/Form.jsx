@@ -5,50 +5,65 @@ import { createUser } from 'source';
 import { showError } from 'utils';
 
 class Form extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      firstName: '',
-      secondName: '',
-      email: ''
-    };
-
-    this.changeValue = this.changeValue.bind(this);
-    this.onSubmit = this.onSubmit.bind(this);
-  }
+  state = {
+    firstName: '',
+    secondName: '',
+    email: ''
+  };
 
   changeValue = field => ({ target }) =>
     this.setState({ [field]: target.value });
 
-  onSubmit(e) {
-    e.preventDefault();
+  onSubmit = event => {
+    event.preventDefault();
 
-    const { updateUsersList } = this.props;
+    const { updateUsersList, usersLength } = this.props;
 
-    createUser(this.state)
-      .then(() => {
-        updateUsersList();
-      })
-      .catch(showError);
-  }
+    const newUser = { ...this.state, id: usersLength };
+    const { firstName, secondName, email } = newUser;
+    if (firstName && secondName && email) {
+      createUser(newUser)
+        .then(() => {
+          updateUsersList();
+        })
+        .catch(showError);
+      this.setState({
+        firstName: '',
+        secondName: '',
+        email: ''
+      });
+    } else {
+      console.log('Заполните все поля');
+    }
+  };
 
   render() {
-    const { changeValue } = this;
+    const {
+      changeValue,
+      state: { firstName, secondName, email }
+    } = this;
 
     return (
       <form onSubmit={this.onSubmit} className="wrapperSmall">
         <label>
           Имя
-          <input type="text" onChange={changeValue('firstName')} />
+          <input
+            value={firstName}
+            type="text"
+            onChange={changeValue('firstName')}
+          />
         </label>
         <label>
           Фамилия
-          <input type="text" onChange={changeValue('secondName')} />
+          <input
+            value={secondName}
+            type="text"
+            onChange={changeValue('secondName')}
+          />
         </label>
         <label>
           Email
-          <input type="email" onChange={changeValue('email')} />
+          <input value={email} type="email" onChange={changeValue('email')} />
         </label>
         <button>Сохранить</button>
       </form>

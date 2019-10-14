@@ -5,7 +5,7 @@ const bodyParser = require('body-parser');
 // TODO users to data.js
 let users = [
   {
-    id: 1,
+    id: 0,
     firstName: 'Pavel',
     secondName: 'Efimov',
     email: 'test@gmail.com'
@@ -28,14 +28,14 @@ app.get('/users', (req, res) => {
 
 app.post('/user', (req, res) => {
   users.push(req.body);
-
   res.sendStatus(200);
 });
 
 app.delete('/user', (req, res) => {
-  users.slice(id, id + 1);
-  console.log('req.body', req.body);
-  // TODO make something
+  const { id } = req.body;
+  console.log(id);
+  users = users.filter(user => user.id !== id);
   res.sendStatus(200);
 });
+
 app.listen(3000, () => console.log('port 3000'));

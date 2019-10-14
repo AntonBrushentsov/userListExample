@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 
 import Form from './Form';
 import UsersList from './UsersList';
+
 import { getUsers, deleteUser, changeUser } from 'source';
 
 import { showError } from 'utils';
@@ -18,18 +19,18 @@ class App extends Component {
       .catch(showError);
   };
 
-  deleteUser = firstName => () => {
-    deleteUser(firstName)
+  deleteUser = id => () => {
+    deleteUser(id)
       .then(({ data }) => {
         this.updateUsersList({ users: data });
       })
       .catch(showError);
   };
 
-  changeUser = firstName => () => {
-    changeUser(firstName)
-      .then(() => {
-        this.updateUsersList();
+  changeUser = id => () => {
+    changeUser(id)
+      .then(({ data }) => {
+        this.updateUsersList({ users: data });
       })
       .catch(showError);
   };
@@ -51,7 +52,7 @@ class App extends Component {
           deleteUser={deleteUser}
           changeUser={changeUser}
         />
-        <Form updateUsersList={updateUsersList} />
+        <Form usersLength={users.length} updateUsersList={updateUsersList} />
       </div>
     );
   }
